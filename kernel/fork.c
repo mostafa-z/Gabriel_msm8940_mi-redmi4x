@@ -757,6 +757,7 @@ struct file *get_mm_exe_file(struct mm_struct *mm)
 	up_read(&mm->mmap_sem);
 	return exe_file;
 }
+EXPORT_SYMBOL(get_mm_exe_file);
 
 static void dup_mm_exe_file(struct mm_struct *oldmm, struct mm_struct *newmm)
 {
