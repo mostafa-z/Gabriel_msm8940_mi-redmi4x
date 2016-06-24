@@ -694,6 +694,27 @@ config DISABLE_TEMP_PROTECT
 	  Say Y here to enable a function which disabled TEMP protect...
 	  WARNNING:Only SCM could open it.
 
+config FORCE_FAST_CHARGE
+	bool "Force faster charge rate for USB"
+  	default n
+  	help
+	  This allows users to override default charge rate for USB.
+
+config MSM_BCL_SOMC_CTL
+	bool "BCL driver to control with new condition"
+	depends on BATTERY_BCL
+	help
+	  Say Y here to enable new condition.
+
+config QNS_SYSTEM
+	bool "Qnovo QNS wrapper implementation"
+	default n
+	help
+	  Say Y here to enable support for QNS system.
+	  QNS is a battery charging controller and it necessary to access a
+	  kernel driver for a battery charging.
+	  This adds sysfs interface which enables QNS daemon to access it.
+
 source "drivers/power/reset/Kconfig"
 
 endif # POWER_SUPPLY
