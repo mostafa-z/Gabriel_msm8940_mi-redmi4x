@@ -1571,11 +1571,14 @@ static int lpm_cpuidle_enter(struct cpuidle_device *dev,
 		struct cpuidle_driver *drv, int idx)
 {
 	struct lpm_cluster *cluster = per_cpu(cpu_cluster, dev->cpu);
-	bool success = true;
+	bool success = false;
 	const struct cpumask *cpumask = get_cpu_mask(dev->cpu);
 	int64_t start_time = ktime_to_ns(ktime_get()), end_time;
 	struct power_params *pwr_params;
 	struct clk *cpu_clk = per_cpu(cpu_clocks, dev->cpu);
+
+	if (idx < 0)
+		return -EINVAL;
 
 	if (idx < 0)
 		return -EINVAL;
