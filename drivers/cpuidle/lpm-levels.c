@@ -1144,10 +1144,10 @@ static int cluster_configure(struct lpm_cluster *cluster, int idx,
 			goto failed_set_mode;
 		}
 
-		us = (us + 1) * 1000;
 		clear_predict_history();
 		clear_cl_predict_history();
 
+		us = us + 1;
 		sec = us;
 		do_div(sec, USEC_PER_SEC);
 		nsec = us - sec * USEC_PER_SEC;
@@ -1158,8 +1158,6 @@ static int cluster_configure(struct lpm_cluster *cluster, int idx,
 			do_div(nsec, NSEC_PER_SEC/SCLK_HZ);
 		}
 		us = sec + nsec;
-
-		do_div(us, NSEC_PER_SEC/SCLK_HZ);
 		msm_mpm_enter_sleep(us, from_idle, cpumask);
 
 		if (cluster->no_saw_devices && !use_psci)
