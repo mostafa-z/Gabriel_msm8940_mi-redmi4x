@@ -193,6 +193,7 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 			return -EBUSY;
 		}
 		target_state = &drv->states[index];
+		broadcast = false;
 	}
 
 	trace_cpu_idle_rcuidle(index, dev->cpu);
