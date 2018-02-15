@@ -74,8 +74,8 @@ static int msm_ter_mi2s_tx_ch = 1;
 static int msm_pri_mi2s_rx_ch = 1;
 static int msm_proxy_rx_ch = 2;
 static int msm_vi_feed_tx_ch = 2;
-static int mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int mi2s_rx_bits_per_sample = 16;
+static int mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int mi2s_rx_bits_per_sample = 32;
 static int mi2s_rx_sample_rate = SAMPLING_RATE_48KHZ;
 static int mi2s_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 static int mi2s_tx_bits_per_sample = 16;
@@ -895,11 +895,11 @@ static int mi2s_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -920,11 +920,11 @@ static int mi2s_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		mi2s_rx_bits_per_sample = 32;
 		break;
 	case 1:
+	default:
 		mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		mi2s_rx_bits_per_sample = 32;
 		break;
 	case 0:
-	default:
 		mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		mi2s_rx_bits_per_sample = 16;
 		break;
@@ -1109,13 +1109,13 @@ static int mi2s_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 
 	switch (mi2s_rx_sample_rate) {
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 	case SAMPLING_RATE_192KHZ:
 		sample_rate_val = 2;
 		break;
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -1132,13 +1132,13 @@ static int mi2s_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 {
 	switch (ucontrol->value.integer.value[0]) {
 	case 1:
+	default:
 		mi2s_rx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 2:
 		mi2s_rx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 0:
-	default:
 		mi2s_rx_sample_rate = SAMPLING_RATE_48KHZ;
 		break;
 	}
