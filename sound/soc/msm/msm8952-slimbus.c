@@ -86,14 +86,14 @@ enum {
 	TDM_MAX,
 };
 
-static int slim0_rx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim0_tx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim1_tx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim2_tx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim0_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int slim0_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int slim1_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int slim2_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int slim0_rx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim0_tx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim1_tx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim2_tx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim0_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int slim0_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int slim1_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int slim2_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 static int msm_slim_0_rx_ch = 1;
 static int msm_slim_0_tx_ch = 1;
 static int msm_slim_1_tx_ch = 1;
@@ -101,13 +101,13 @@ static int msm_slim_2_tx_ch = 1;
 static int msm_vi_feed_tx_ch = 2;
 static int msm_slim_5_rx_ch = 1;
 static int msm_slim_6_rx_ch = 1;
-static int slim5_rx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim5_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int slim6_rx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim6_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int slim5_rx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim5_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int slim6_rx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim6_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 static int msm8952_auxpcm_rate = SAMPLING_RATE_8KHZ;
-static int slim4_rx_sample_rate = SAMPLING_RATE_48KHZ;
-static int slim4_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int slim4_rx_sample_rate = SAMPLING_RATE_96KHZ;
+static int slim4_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 static int msm_slim_4_rx_ch = 1;
 static int msm_btsco_rate = SAMPLING_RATE_8KHZ;
 static int msm_btsco_ch = 1;
@@ -115,7 +115,7 @@ static int msm8952_spk_control = 1;
 
 static bool codec_reg_done;
 
-static int mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 
 static int msm_proxy_rx_ch = 2;
 static void *adsp_state_notifier;
@@ -128,18 +128,18 @@ static int msm_sec_tdm_rx_0_ch = 8;
 static int msm_sec_tdm_tx_0_ch = 8;
 
 /* TDM default bit format */
-static int msm_pri_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int msm_pri_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int msm_pri_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int msm_pri_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 
-static int msm_sec_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
-static int msm_sec_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
+static int msm_sec_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
+static int msm_sec_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 
 /* TDM default sampling rate */
-static int msm_pri_tdm_rx_0_sample_rate = SAMPLING_RATE_48KHZ;
-static int msm_pri_tdm_tx_0_sample_rate = SAMPLING_RATE_48KHZ;
+static int msm_pri_tdm_rx_0_sample_rate = SAMPLING_RATE_96KHZ;
+static int msm_pri_tdm_tx_0_sample_rate = SAMPLING_RATE_96KHZ;
 
-static int msm_sec_tdm_rx_0_sample_rate = SAMPLING_RATE_48KHZ;
-static int msm_sec_tdm_tx_0_sample_rate = SAMPLING_RATE_48KHZ;
+static int msm_sec_tdm_rx_0_sample_rate = SAMPLING_RATE_96KHZ;
+static int msm_sec_tdm_tx_0_sample_rate = SAMPLING_RATE_96KHZ;
 
 static char const *tdm_ch_text[] = {"One", "Two", "Three", "Four",
 	"Five", "Six", "Seven", "Eight"};
@@ -166,7 +166,7 @@ static struct wcd_mbhc_config wcd_mbhc_cfg = {
 	.read_fw_bin = false,
 	.calibration = NULL,
 	.detect_extn_cable = true,
-	.mono_stero_detection = false,
+	.mono_stero_detection = true,
 	.swap_gnd_mic = NULL,
 	.hs_ext_micbias = true,
 	.key_code[0] = KEY_MEDIA,
@@ -508,11 +508,11 @@ static int slim5_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -538,10 +538,10 @@ static int slim5_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim5_rx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim5_rx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
-	default:
 		slim5_rx_sample_rate = SAMPLING_RATE_48KHZ;
 	}
 
@@ -561,11 +561,11 @@ static int mi2s_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -585,10 +585,10 @@ static int mi2s_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		mi2s_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -628,11 +628,11 @@ static int slim0_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -658,10 +658,10 @@ static int slim0_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim0_rx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim0_rx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
-	default:
 		slim0_rx_sample_rate = SAMPLING_RATE_48KHZ;
 	}
 
@@ -689,11 +689,11 @@ static int slim4_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -722,10 +722,10 @@ static int slim4_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim4_rx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim4_rx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
-	default:
 		slim4_rx_sample_rate = SAMPLING_RATE_48KHZ;
 	}
 
@@ -745,11 +745,11 @@ static int slim5_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -769,10 +769,10 @@ static int slim5_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim5_rx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim5_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		slim5_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -788,11 +788,11 @@ static int slim6_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -812,10 +812,10 @@ static int slim6_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim6_rx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim6_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		slim6_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -836,11 +836,11 @@ static int slim6_rx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -863,10 +863,10 @@ static int slim6_rx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim6_rx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim6_rx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
-	default:
 		slim6_rx_sample_rate = SAMPLING_RATE_48KHZ;
 		break;
 	}
@@ -888,11 +888,11 @@ static int slim0_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -912,10 +912,10 @@ static int slim0_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim0_rx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim0_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		slim0_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -932,11 +932,11 @@ static int slim4_rx_bit_format_get(struct snd_kcontrol *kcontrol,
 		break;
 
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -956,10 +956,10 @@ static int slim4_rx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim4_rx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim4_rx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		slim4_rx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -1049,10 +1049,10 @@ static int slim0_tx_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1075,12 +1075,12 @@ static int slim0_tx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim0_tx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim0_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
 		slim0_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
-	default:
 		pr_err("%s: invalid value %ld\n", __func__,
 				ucontrol->value.integer.value[0]);
 		rc = -EINVAL;
@@ -1097,10 +1097,10 @@ static int slim2_tx_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1120,12 +1120,12 @@ static int slim2_tx_bit_format_put(struct snd_kcontrol *kcontrol,
 		slim2_tx_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		slim2_tx_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
 		slim2_tx_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
-	default:
 		pr_err("%s: invalid value %ld\n", __func__,
 				ucontrol->value.integer.value[0]);
 		rc = -EINVAL;
@@ -1219,10 +1219,10 @@ static int slim0_tx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		sample_rate_val = 2;
 		break;
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -1250,12 +1250,12 @@ static int slim0_tx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim0_tx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim0_tx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
 		slim0_tx_sample_rate = SAMPLING_RATE_48KHZ;
 		break;
-	default:
 		rc = -EINVAL;
 		pr_err("%s: invalid sample rate being passed\n", __func__);
 		break;
@@ -1278,10 +1278,10 @@ static int slim2_tx_sample_rate_get(struct snd_kcontrol *kcontrol,
 		sample_rate_val = 2;
 		break;
 	case SAMPLING_RATE_96KHZ:
+	default:
 		sample_rate_val = 1;
 		break;
 	case SAMPLING_RATE_48KHZ:
-	default:
 		sample_rate_val = 0;
 		break;
 	}
@@ -1309,12 +1309,12 @@ static int slim2_tx_sample_rate_put(struct snd_kcontrol *kcontrol,
 		slim2_tx_sample_rate = SAMPLING_RATE_192KHZ;
 		break;
 	case 1:
+	default:
 		slim2_tx_sample_rate = SAMPLING_RATE_96KHZ;
 		break;
 	case 0:
 		slim2_tx_sample_rate = SAMPLING_RATE_48KHZ;
 		break;
-	default:
 		rc = -EINVAL;
 		pr_err("%s: invalid sample rate being passed\n", __func__);
 		break;
@@ -1479,10 +1479,10 @@ static int msm_pri_tdm_rx_0_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1502,10 +1502,10 @@ static int msm_pri_tdm_rx_0_bit_format_put(struct snd_kcontrol *kcontrol,
 		msm_pri_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		msm_pri_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		msm_pri_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -1525,10 +1525,10 @@ static int msm_pri_tdm_tx_0_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1548,10 +1548,10 @@ static int msm_pri_tdm_tx_0_bit_format_put(struct snd_kcontrol *kcontrol,
 		msm_pri_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		msm_pri_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		msm_pri_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -1571,10 +1571,10 @@ static int msm_sec_tdm_rx_0_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1594,10 +1594,10 @@ static int msm_sec_tdm_rx_0_bit_format_put(struct snd_kcontrol *kcontrol,
 		msm_sec_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		msm_sec_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		msm_sec_tdm_rx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
@@ -1617,10 +1617,10 @@ static int msm_sec_tdm_tx_0_bit_format_get(struct snd_kcontrol *kcontrol,
 		ucontrol->value.integer.value[0] = 2;
 		break;
 	case SNDRV_PCM_FORMAT_S24_LE:
+	default:
 		ucontrol->value.integer.value[0] = 1;
 		break;
 	case SNDRV_PCM_FORMAT_S16_LE:
-	default:
 		ucontrol->value.integer.value[0] = 0;
 		break;
 	}
@@ -1640,10 +1640,10 @@ static int msm_sec_tdm_tx_0_bit_format_put(struct snd_kcontrol *kcontrol,
 		msm_sec_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_3LE;
 		break;
 	case 1:
+	default:
 		msm_sec_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S24_LE;
 		break;
 	case 0:
-	default:
 		msm_sec_tdm_tx_0_bit_format = SNDRV_PCM_FORMAT_S16_LE;
 		break;
 	}
