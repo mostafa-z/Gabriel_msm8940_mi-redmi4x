@@ -48,7 +48,7 @@
 #define QUAT_MI2S_ID	(1 << 3)
 #define QUIN_MI2S_ID	(1 << 4)
 
-#define DEFAULT_MCLK_RATE 9600000
+#define DEFAULT_MCLK_RATE 12288000
 
 #if defined(CONFIG_C3N_SMB358)
 #define AW8736_MODE 5
