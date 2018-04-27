@@ -1143,9 +1143,9 @@ static int cluster_configure(struct lpm_cluster *cluster, int idx,
 	if (level->notify_rpm) {
 		struct cpumask nextcpu, *cpumask;
 		uint64_t us;
+		uint32_t pred_us;
 		uint64_t sec;
 		uint64_t nsec;
-		uint32_t pred_us;
 
 		us = get_cluster_sleep_time(cluster, &nextcpu,
 						from_idle, &pred_us);
@@ -1513,7 +1513,7 @@ bool psci_enter_sleep(struct lpm_cluster *cluster, int idx, bool from_idle)
 		update_debug_pc_event(CPU_ENTER, state_id,
 						0xdeaffeed, 0xdeaffeed, true);
 		stop_critical_timings();
-		success = !cpu_suspend(state_id);
+		success = !arm_cpuidle_suspend(state_id);
 		start_critical_timings();
 		update_debug_pc_event(CPU_EXIT, state_id,
 						success, 0xdeaffeed, true);
@@ -2060,4 +2060,3 @@ unlock_and_return:
 	spin_unlock(&cluster->sync_lock);
 	return retflag;
 }
-

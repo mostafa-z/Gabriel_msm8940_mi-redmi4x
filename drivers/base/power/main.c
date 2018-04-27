@@ -29,9 +29,9 @@
 #include <linux/sched.h>
 #include <linux/async.h>
 #include <linux/suspend.h>
-#include <linux/cpuidle.h>
 #include <trace/events/power.h>
 #include <linux/cpufreq.h>
+#include <linux/cpuidle.h>
 #include <linux/timer.h>
 #include <linux/wakeup_reason.h>
 
