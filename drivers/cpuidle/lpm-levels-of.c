@@ -187,6 +187,8 @@ ssize_t lpm_enable_store(struct kobject *kobj, struct kobj_attribute *attr,
 	struct lpm_level_avail *avail;
 
 	avail = get_avail_ptr(kobj, attr);
+	if (WARN_ON(!avail))
+		return -EINVAL;
 	kp.arg = get_enabled_ptr(attr, avail);
 	ret = param_set_bool(buf, &kp);
 
@@ -737,8 +739,7 @@ static int calculate_residency(struct power_params *base_pwr,
 		((int32_t)(next_pwr->ss_power * next_pwr->time_overhead_us)
 		- (int32_t)(base_pwr->ss_power * base_pwr->time_overhead_us));
 
-	if (base_pwr->ss_power != next_pwr->ss_power)
-		residency /= (int32_t)(base_pwr->ss_power  - next_pwr->ss_power);
+	residency /= (int32_t)(base_pwr->ss_power  - next_pwr->ss_power);
 
 	if (residency < 0) {
 		pr_err("%s: residency < 0 for LPM\n",
@@ -880,6 +881,7 @@ struct lpm_cluster *parse_cluster(struct device_node *node,
 			continue;
 		key = "qcom,pm-cluster-level";
 		if (!of_node_cmp(n->name, key)) {
+			WARN_ON(!use_psci && c->no_saw_devices);
 			if (parse_cluster_level(n, c))
 				goto failed_parse_cluster;
 			continue;
@@ -889,10 +891,7 @@ struct lpm_cluster *parse_cluster(struct device_node *node,
 		if (!of_node_cmp(n->name, key)) {
 			struct lpm_cluster *child;
 
-			if (c->no_saw_devices)
-				pr_info("%s: SAW device not provided.\n",
-					__func__);
-
+			WARN_ON(!use_psci && c->no_saw_devices);
 			child = parse_cluster(n, c);
 			if (!child)
 				goto failed_parse_cluster;

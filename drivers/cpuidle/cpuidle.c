@@ -79,9 +79,9 @@ static int find_deepest_state(struct cpuidle_driver *drv,
 			      bool freeze)
 {
 	unsigned int latency_req = 0;
-	int i, ret = 0;
+	int i, ret = -ENXIO;
 
-	for (i = 1; i < drv->state_count; i++) {
+	for (i = 0; i < drv->state_count; i++) {
 		struct cpuidle_state *s = &drv->states[i];
 		struct cpuidle_state_usage *su = &dev->states_usage[i];
 
@@ -176,10 +176,6 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 	ktime_t time_start, time_end;
 	s64 diff;
 
-	/* Take note of the planned idle state. */
-	sched_idle_set_state(target_state, index);
-
-
 	/*
 	 * Tell the time framework to switch to a broadcast timer because our
 	 * local timer will be shut down.  If a local timer is used from another
@@ -195,6 +191,9 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
 		target_state = &drv->states[index];
 		broadcast = false;
 	}
+
+	/* Take note of the planned idle state. */
+	sched_idle_set_state(target_state, index);
 
 	trace_cpu_idle_rcuidle(index, dev->cpu);
 	time_start = ktime_get();
@@ -245,7 +244,7 @@ int cpuidle_enter_state(struct cpuidle_device *dev, struct cpuidle_driver *drv,
  * @drv: the cpuidle driver
  * @dev: the cpuidle device
  *
- * Returns the index of the idle state.  The return value must not be negative.
+ * Returns the index of the idle state.
  */
 int cpuidle_select(struct cpuidle_driver *drv, struct cpuidle_device *dev)
 {
