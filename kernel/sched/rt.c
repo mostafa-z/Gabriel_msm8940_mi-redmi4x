@@ -1460,8 +1460,7 @@ static void dequeue_task_rt(struct rq *rq, struct task_struct *p, int flags)
 	struct sched_rt_entity *rt_se = &p->rt;
 
 	update_curr_rt(rq);
-
-	dequeue_rt_entity(rt_se, flags);
+	dequeue_rt_entity(rt_se, 0);
 	walt_dec_cumulative_runnable_avg(rq, p);
 
 	dequeue_pushable_task(rq, p);
@@ -1628,10 +1627,16 @@ select_task_rq_rt(struct task_struct *p, int cpu, int sd_flag, int flags,
 	 * will have to sort it out.
 	 */
 	may_not_preempt = task_may_not_preempt(curr, cpu);
+<<<<<<< HEAD
 	if (curr && (may_not_preempt ||
 		     (unlikely(rt_task(curr)) &&
 		      (curr->nr_cpus_allowed < 2 ||
 		       curr->prio <= p->prio)))) {
+=======
+	if (curr && unlikely(rt_task(curr)) &&
+	    (curr->nr_cpus_allowed < 2 ||
+	     curr->prio <= p->prio)) {
+>>>>>>> b0acf1c... :bug: Fixing EAS implementation
 		int target = find_lowest_rq(p);
  		/*
 		 * If cpu is non-preemptible, prefer remote cpu
