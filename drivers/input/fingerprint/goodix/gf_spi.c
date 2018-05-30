@@ -449,7 +449,7 @@ static int driver_init_partial(struct gf_dev *gf_dev)
 					gf_dev->irq,
 					NULL,
 					gf_irq,
-					IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+					IRQF_TRIGGER_RISING | IRQF_ONESHOT | IRQF_PERF_CRITICAL,
 					"gf", gf_dev);
 	if (ret) {
 		pr_err("Could not request irq %d\n", gpio_to_irq(gf_dev->irq_gpio));
