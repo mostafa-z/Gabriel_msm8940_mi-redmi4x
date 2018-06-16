@@ -103,13 +103,13 @@ enum {
 #define MICBIAS_MIN_VAL 1600000
 #define MICBIAS_STEP_SIZE 50000
 
-#define DEFAULT_BOOST_VOLTAGE 5000
-#define MIN_BOOST_VOLTAGE 4000
+#define DEFAULT_BOOST_VOLTAGE 5250
+#define MIN_BOOST_VOLTAGE 4700
 #define MAX_BOOST_VOLTAGE 5550
 #define BOOST_VOLTAGE_STEP 50
 
-#define MSM8X16_WCD_MBHC_BTN_COARSE_ADJ  100 /* in mV */
-#define MSM8X16_WCD_MBHC_BTN_FINE_ADJ 12 /* in mV */
+#define MSM8X16_WCD_MBHC_BTN_COARSE_ADJ  50 /* in mV */
+#define MSM8X16_WCD_MBHC_BTN_FINE_ADJ 10 /* in mV */
 
 #define VOLTAGE_CONVERTER(value, min_value, step_size)\
 	((value - min_value)/step_size)
@@ -1012,7 +1012,7 @@ static const struct wcd_mbhc_cb mbhc_cb = {
 
 static const uint32_t wcd_imped_val[] = {4, 8, 12, 13, 16,
 					20, 24, 28, 32,
-					36, 40, 44, 48};
+					36, 40, 44, 48, 56, 64, 72, 88, 96, 100};
 
 void msm8x16_notifier_call(struct snd_soc_codec *codec,
 				  const enum wcd_notify_event event)
