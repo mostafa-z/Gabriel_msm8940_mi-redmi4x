@@ -20,6 +20,7 @@
 		reg = <0xcc00000 0x100000>;
 		interrupts = <GIC_SPI 287 IRQ_TYPE_LEVEL_HIGH>;
 		qcom,max-hw-load = <2563200>; /* Full 4k @ 60 + 1080p @ 60 */
+		qcom,power-conf = <8294400>; /* WxH - 3840*2160 */
 		qcom,hfi = "venus";
 		qcom,hfi-version = "3xx";
 		qcom,firmware-name = "venus";
