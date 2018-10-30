@@ -1415,7 +1415,7 @@ config RTC_DRV_MOXART
 
 config RTC_DRV_QPNP
 	tristate "Qualcomm Technologies, Inc. QPNP PMIC RTC"
-	depends on SPMI
+	depends on (SPMI || MSM_SPMI) && OF_SPMI && MSM_QPNP_INT
 	help
 	  This enables support for the RTC found on Qualcomm Technologies, Inc.
 	  QPNP PMIC chips.  This driver supports using the PMIC RTC peripheral
