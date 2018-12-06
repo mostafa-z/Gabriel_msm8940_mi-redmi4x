@@ -152,9 +152,21 @@ fi;
 if [ "$(file_getprop /system/build.prop ro.treble.enabled)" == "true" ]; then
   ui_print "Treble Rom detected";
   ui_print " ";
-  dtb=/tmp/anykernel/treble-supported;
+  if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.66hz)" == 1 ]; then
+    ui_print "Using 66 hz panel framerate";
+    ui_print " ";
+    dtb=/tmp/anykernel/treble-supported-66;
+  else
+    dtb=/tmp/anykernel/treble-supported;
+  fi;
 else
-  dtb=/tmp/anykernel/treble-unsupported;
+  if [ "$(file_getprop /tmp/anykernel/anykernel.sh do.66hz)" == 1 ]; then
+    ui_print "Using 66 hz panel framerate";
+    ui_print " ";
+    dtb=/tmp/anykernel/treble-unsupported-66;
+  else
+    dtb=/tmp/anykernel/treble-unsupported;
+  fi;
 fi;
 
 if [ "$(cat /dev/block/bootdevice/by-name/boot | grep -m 1 androidboot | grep permissive | wc -l)" -gt "0" ]; then

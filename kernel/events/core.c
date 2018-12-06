@@ -832,8 +832,8 @@ static int perf_mux_hrtimer_restart(struct perf_cpu_context *cpuctx)
 	raw_spin_lock_irqsave(&cpuctx->hrtimer_lock, flags);
 	if (!cpuctx->hrtimer_active) {
 		cpuctx->hrtimer_active = 1;
-		__hrtimer_start_range_ns(timer, cpuctx->hrtimer_interval,
-				0, HRTIMER_MODE_REL_PINNED, 0);
+		hrtimer_start_range_ns(timer, cpuctx->hrtimer_interval,
+				0, HRTIMER_MODE_REL_PINNED);
 	}
 	raw_spin_unlock_irqrestore(&cpuctx->hrtimer_lock, flags);
 
@@ -3924,7 +3924,14 @@ retry:
 		goto retry;
 	}
 
-	__perf_event_period(&pe);
+	if (event->attr.freq) {
+		event->attr.sample_freq = value;
+	} else {
+		event->attr.sample_period = value;
+		event->hw.sample_period = value;
+	}
+
+	local64_set(&event->hw.period_left, 0);
 	raw_spin_unlock_irq(&ctx->lock);
 
 	return 0;
@@ -6346,6 +6353,8 @@ void perf_tp_event(u64 addr, u64 count, void *record, int entry_size,
 			goto unlock;
 
 		list_for_each_entry_rcu(event, &ctx->event_list, event_entry) {
+			if (event->cpu != smp_processor_id())
+				continue;
 			if (event->attr.type != PERF_TYPE_TRACEPOINT)
 				continue;
 			if (event->attr.config != entry->type)
@@ -6508,9 +6517,9 @@ static void perf_swevent_start_hrtimer(struct perf_event *event)
 	} else {
 		period = max_t(u64, 10000, hwc->sample_period);
 	}
-	__hrtimer_start_range_ns(&hwc->hrtimer,
+	hrtimer_start_range_ns(&hwc->hrtimer,
 			ns_to_ktime(period), 0,
-			HRTIMER_MODE_REL_PINNED, 0);
+			HRTIMER_MODE_REL_PINNED);
 }
 
 static void perf_swevent_cancel_hrtimer(struct perf_event *event)

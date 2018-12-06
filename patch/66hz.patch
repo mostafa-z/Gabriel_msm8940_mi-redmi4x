@@ -1,0 +1,67 @@
+diff --git a/arch/arm/boot/dts/qcom/msm8940-pmi8950-qrd-sku7-full.dts b/arch/arm/boot/dts/qcom/msm8940-pmi8950-qrd-sku7-full.dts
+index 4a7f9909da00a..35b1069e4febe 100644
+--- a/arch/arm/boot/dts/qcom/msm8940-pmi8950-qrd-sku7-full.dts
++++ b/arch/arm/boot/dts/qcom/msm8940-pmi8950-qrd-sku7-full.dts
+@@ -10596,7 +10596,7 @@
+ 				qcom,mdss-dsi-panel-controller = <0x182>;
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+ 				qcom,mdss-dsi-panel-destination = "display_1";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;
+@@ -10706,7 +10706,7 @@
+ 				qcom,mdss-dsi-panel-controller = <0x182>;
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+ 				qcom,mdss-dsi-panel-destination = "display_1";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x500>;
+@@ -10756,7 +10756,7 @@
+ 			qcom,mdss_dsi_truly_720p_video {
+ 				qcom,mdss-dsi-panel-name = "truly 720p video mode dsi panel";
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;
+@@ -10849,7 +10849,7 @@
+ 			qcom,mdss_dsi_truly_720p_cmd {
+ 				qcom,mdss-dsi-panel-name = "truly 720p cmd mode dsi panel";
+ 				qcom,mdss-dsi-panel-type = "dsi_cmd_mode";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;
+@@ -11009,7 +11009,7 @@
+ 				qcom,mdss-dsi-panel-controller = <0x182>;
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+ 				qcom,mdss-dsi-panel-destination = "display_1";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;
+@@ -11082,7 +11082,7 @@
+ 				qcom,mdss-dsi-panel-controller = <0x182>;
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+ 				qcom,mdss-dsi-panel-destination = "display_1";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;
+@@ -11152,7 +11152,7 @@
+ 				qcom,mdss-dsi-panel-controller = <0x182>;
+ 				qcom,mdss-dsi-panel-type = "dsi_video_mode";
+ 				qcom,mdss-dsi-panel-destination = "display_1";
+-				qcom,mdss-dsi-panel-framerate = <0x3c>;
++				qcom,mdss-dsi-panel-framerate = <0x42>;
+ 				qcom,mdss-dsi-virtual-channel-id = <0x0>;
+ 				qcom,mdss-dsi-stream = <0x0>;
+ 				qcom,mdss-dsi-panel-width = <0x2d0>;

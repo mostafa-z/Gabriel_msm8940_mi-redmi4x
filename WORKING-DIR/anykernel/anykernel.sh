@@ -16,6 +16,7 @@ do.osversion=1
 do.f2fs_patch=1
 do.rem_encryption=0
 do.force_encryption=0
+do.66hz=0
 device.name1=santoni
 device.name2=Xiaomi
 device.name3=Redmi 4X

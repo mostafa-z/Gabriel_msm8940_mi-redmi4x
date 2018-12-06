@@ -1124,6 +1124,8 @@
 			<spinnerItem name="Enable" value="1"/>
 		</spinner>
 
+		<button description="Push Clear Now button in order to free RAM from unused buffers and cache." name="Clear file cache" action="push-actions/clear_file_cache" label="Clear NOW"/>
+
 	</settingsPane>
 
 	<settingsPane description="SWAP function is using swap storage placed in /data folder in order to expand RAM and leave more physical RAM for apps working in the background. Enable this option only, if you have free space and you really need that RAM expansion. You will notice slightly faster battery discharging and slower I/O read/write operations. It can be combined with ZRAM." name="Linux SWAP">

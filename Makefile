@@ -1,6 +1,6 @@
 VERSION = 3
 PATCHLEVEL = 18
-SUBLEVEL = 124
+SUBLEVEL = 128
 EXTRAVERSION =
 NAME = Diseased Newt
 
@@ -610,11 +610,11 @@ all: vmlinux
 ifeq ($(cc-name),clang)
 ifneq ($(CROSS_COMPILE),)
 CLANG_TRIPLE	?= $(CROSS_COMPILE)
-CLANG_TARGET	:= -target $(notdir $(CLANG_TRIPLE:%-=%))
+CLANG_TARGET	:= --target=$(notdir $(CROSS_COMPILE:%-=%))
 GCC_TOOLCHAIN	:= $(realpath $(dir $(shell which $(LD)))/..)
 endif
 ifneq ($(GCC_TOOLCHAIN),)
-CLANG_GCC_TC	:= -gcc-toolchain $(GCC_TOOLCHAIN)
+CLANG_GCC_TC	:= --gcc-toolchain=$(GCC_TOOLCHAIN)
 endif
 KBUILD_CFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
 KBUILD_AFLAGS += $(CLANG_TARGET) $(CLANG_GCC_TC)
@@ -675,6 +675,8 @@ KBUILD_CFLAGS  += $(call cc-disable-warning, stringop-overflow)
 
 # Disable CLANG 8.x warnings
 KBUILD_CFLAGS  += $(call cc-disable-warning, return-stack-address)
+
+KBUILD_LOUP_CFLAGS += -Wno-unknown-warning-option -Wno-sometimes-uninitialized -Wno-vectorizer-no-neon -Wno-pointer-sign -Wno-sometimes-uninitialized -Wno-tautological-constant-out-of-range-compare -Wno-literal-conversion -Wno-enum-conversion -Wno-parentheses-equality -Wno-typedef-redefinition -Wno-constant-logical-operand -Wno-array-bounds -Wno-empty-body -Wno-non-literal-null-conversion -Wno-shift-overflow -Wno-logical-not-parentheses -Wno-strlcpy-strlcat-size -Wno-section -Wno-stringop-truncation -Wno-return-stack-address -mtune=cortex-a53 -march=armv8-a+crc+simd+crypto -mcpu=cortex-a53
 
 ifneq ($(KBUILD_LOUP_CFLAGS),)
 $(info Using custom flags!!! [${KBUILD_LOUP_CFLAGS}])

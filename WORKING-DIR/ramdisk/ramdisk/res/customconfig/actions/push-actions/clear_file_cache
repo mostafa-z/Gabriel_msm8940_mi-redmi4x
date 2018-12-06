@@ -1,0 +1,16 @@
+#!/sbin/busybox sh
+# Clear Cache script
+
+CACHE_JUNK=$(ls -d /data/data/*/cache)
+for i in $CACHE_JUNK; do
+	rm -rf $i/*
+done;
+
+# Old logs
+rm -f /data/tombstones/*;
+rm -f /data/anr/*;
+rm -f /data/system/dropbox/*;
+date +%H:%M-%D > /data/.gabriel/file_cache_log;
+echo "Done! Cleaned Apps Cache." >> /data/.gabriel/file_cache_log;
+echo "Cleaned Apps Cache";
+sync;
