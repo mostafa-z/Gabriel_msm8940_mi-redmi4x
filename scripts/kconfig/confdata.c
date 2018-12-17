@@ -739,9 +739,7 @@ int conf_write(const char *name)
 	struct menu *menu;
 	const char *basename;
 	const char *str;
-	char * dirname = malloc(snprintf(NULL, 0, "%d", 132) + 1);
-	char * tmpname = malloc(snprintf(NULL, 0, "%d", 132) + 1);
-	char * newname = malloc(snprintf(NULL, 0, "%d", 132) + 1);
+	char dirname[PATH_MAX+1], tmpname[PATH_MAX+1], newname[PATH_MAX+1];
 	char *env;
 
 	dirname[0] = 0;
