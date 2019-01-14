@@ -1126,17 +1126,6 @@
 
 	</settingsPane>
 
-	<settingsPane description="SWAP function is using swap storage placed in /data folder in order to expand RAM and leave more physical RAM for apps working in the background. Enable this option only, if you have free space and you really need that RAM expansion. You will notice slightly faster battery discharging and slower I/O read/write operations. It can be combined with ZRAM." name="Linux SWAP">
-
-		<spinner description="SWAP Size Controller. The more is set, the bigger SWAP file will be. It takes time to create SWAP file (about 50 sec)." name="SWAP Selector"
-			action="swaptweaks">
-			<spinnerItem name="OFF" value="0"/> 
-			<spinnerItem name="256 MiB" value="256"/> 
-			<spinnerItem name="512 MiB" value="512"/> 
-		</spinner>
-
-	</settingsPane>
-
 	<settingsPane description="ZRAM Control Module take real RAM and compress it by 35-40% to create more FREE RAM for apps. Compression method by default is LZ4. The more RAM is allocated in ZRAM, the more physical RAM is given to user at cost of CPU power and faster battery discharging. When switching ZRAM size from one to another, decompression and new compression will take some TIME. In some cases that will take more than some min. In that time, Stweak will FREEZE. DO NOT PANIC!. Do not kill the app." name="ZRAM">
 
 		<spinner description="ZRAM Compression/Decompressin Algorithm Selector. This is algorithm of Compressing/Decompressing the ZRAM by Crypto API which can be faster in Compression/Decompression or deliver smaller Compressed size but slower in Compression/Decompression. (Default: lz4)" name="ZRAM Compression Algorithm"
@@ -1161,6 +1150,17 @@
 
 		<seekBar description="Controls ZRAM/SWAP allocation. The higher value is set, then ZRAM/SWAP will use more storage instead of real RAM, in order to give you more free RAM. The only cost is slight performance drop. If you have enabled swap, then the higher a number set here, the more the system will swap. It is not recommended to enable swap as it is very resource heavy. Use ZRAM instead!. By setting it to the maximum of 100 the kernel will swap very aggressively. By setting it to 0 the kernel will only swap to protect against an Out-Of-Memory condition." name="Swappiness"
 			action="generic /proc/sys/vm/swappiness" unit="%" min="0" reversed="false" step="5" max="100"/>
+
+	</settingsPane>
+
+	<settingsPane description="SWAP function is using swap storage placed in /data folder in order to expand RAM and leave more physical RAM for apps working in the background. Enable this option only, if you have free space and you really need that RAM expansion. You will notice slightly faster battery discharging and slower I/O read/write operations. It can be combined with ZRAM." name="Linux SWAP">
+
+		<spinner description="SWAP Size Controller. The more is set, the bigger SWAP file will be. It takes time to create SWAP file (about 50 sec)." name="SWAP Selector"
+			action="swaptweaks">
+			<spinnerItem name="OFF" value="0"/> 
+			<spinnerItem name="256 MiB" value="256"/> 
+			<spinnerItem name="512 MiB" value="512"/> 
+		</spinner>
 
 	</settingsPane>
 
