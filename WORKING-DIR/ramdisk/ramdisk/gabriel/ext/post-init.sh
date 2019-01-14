@@ -355,7 +355,10 @@ CRITICAL_PERM_FIX;
 	# user setup automatically sets to 0 after a random reboot
 	# thanks to stephen
 	pm enable com.google.android.setupwizard/com.google.android.setupwizard.SetupWizardActivity
-	settings put secure user_setup_complete 1
+
+	if [ "$(settings get secure user_setup_complete)" -ne "1" ]; then
+		settings put secure user_setup_complete 1
+	fi;
 
 OPEN_RW;
 
