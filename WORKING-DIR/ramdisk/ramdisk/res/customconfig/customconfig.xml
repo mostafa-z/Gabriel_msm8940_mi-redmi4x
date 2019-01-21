@@ -132,6 +132,16 @@
 
 	</settingsPane>
 
+	<settingsPane description="This option force android to enter deep sleep as soon as the screen turns off (Default: disable)" name="Force doze">
+
+		<spinner description="Select force doze State" name="doze State"
+			action="generic_cortex /tmp/stweaks_force_doze">
+			<spinnerItem name="Apply force doze on boot." value="yes"/> 
+			<spinnerItem name="Don't apply force doze on boot." value="no"/> 
+		</spinner>
+
+	</settingsPane>
+
 	<settingsPane description="Set Power Policy to allows devfreq governors to scale the frequency of a device clock. it can scale any devfreq device based on the current policy. It can be the Reason of HEAT-UP and Core Throttle with Performance Based Policies." name="Clock Frequency Scale Policy">
 
 		<checkbox description="The cpubw devfreq device delegates the speed of the DDR bus, so it's speed is directly correlated with frame drops. Boost it when a new frame is ready to be rendered to the display to reduce overall frame drops." name="CPUBW Boost on Rendering"

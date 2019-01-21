@@ -10,6 +10,7 @@ data_on_boot=yes
 allow_suspend=1
 bcl=enable
 bcl_suspend=enable
+stweaks_force_doze=no
 devfreq_cpubw_mdss_render=on
 devfreq_cpubw_boost_ms=1250
 devfreq_soc_cpubw=default
