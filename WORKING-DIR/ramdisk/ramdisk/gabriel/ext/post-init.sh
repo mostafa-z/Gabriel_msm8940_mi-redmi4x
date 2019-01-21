@@ -420,6 +420,26 @@ if [ "$stweaks_boot_control" == "no" ]; then
 	echo "0" > /proc/sys/kernel/panic_on_oops;
 fi;
 
+#This will enter deep sleep as soon as the screen turns off
+#thanks to stephen
+if [ "$stweaks_force_doze" == "yes" ]; then
+	dumpsys deviceidle enable light
+	dumpsys deviceidle enable deep
+
+	# Put the phone in deep sleep immediately (e.g. via script or even when phone connected to USB)
+	dumpsys deviceidle force-idle deep
+
+	# Disable overwriting settings by google play services
+	pm disable --user 0 com.google.android.gms/.phenotype.service.sync.PhenotypeConfigurator
+
+	# device in light mode directly after screen off (light_after_inactive_to=0)
+	# stay in light mode for 1s
+	# after 1s step into deep doze (inactive_to=1000)
+	settings put global device_idle_constants motion_inactive_to=0,locating_to=0,sensing_to=0,location_accuracy=20.0,idle_after_inactive_to=0,idle_pending_to=10000,max_idle_pending_to=120000,idle_pending_factor=2.0,idle_to=1200000,max_idle_to=86400000,idle_factor=3.0,inactive_to=1000,min_time_to_alarm=10000,light_after_inactive_to=0,max_temp_app_whitelist_duration=10000,mms_temp_app_whitelist_duration=0,sms_temp_app_whitelist_duration=10000,notification_whitelist_duration=10000
+else
+	settings delete global device_idle_constants
+fi;
+
 	# script finish here, so let me know when
 	TIME_NOW=$(date)
 	echo "$TIME_NOW" > /data/.gabriel/boot_log
