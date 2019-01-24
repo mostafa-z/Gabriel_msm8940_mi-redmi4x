@@ -48,7 +48,6 @@ struct tk_read_base {
  * @offs_boot:		Offset clock monotonic -> clock boottime
  * @offs_tai:		Offset clock monotonic -> clock tai
  * @tai_offset:		The current UTC to TAI offset in seconds
- * @raw_sec:		CLOCK_MONOTONIC_RAW  time in seconds
  * @clock_was_set_seq:	The sequence number of clock was set events
  * @next_leap_ktime:	CLOCK_MONOTONIC time value of a pending leap-second
  * @raw_sec:		CLOCK_MONOTONIC_RAW  time in seconds
@@ -90,7 +89,6 @@ struct timekeeper {
 	ktime_t			offs_boot;
 	ktime_t			offs_tai;
 	s32			tai_offset;
-	u64			raw_sec;
 	unsigned int		clock_was_set_seq;
 	ktime_t			next_leap_ktime;
 	u64			raw_sec;
