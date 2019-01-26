@@ -5525,9 +5525,10 @@
 			qcom,hfi = "venus";
 			qcom,reg-presets = <0xe0020 0x5555556 0xe0024 0x5555556 0x80124 0x3>;
 			qcom,qdss-presets = <0x826000 0x1000 0x827000 0x1000 0x822000 0x1000 0x803000 0x1000 0x9180000 0x1000 0x9181000 0x1000>;
-			qcom,max-hw-load = <0x56220>;
+			qcom,max-hw-load = <2563200>; /* Full 4k @ 60 + 1080p @ 60 */
+			qcom,power-conf = <8294400>; /* WxH - 3840*2160 */
 			qcom,firmware-name = "venus";
-			qcom,allowed-clock-rates = <0x15752a00 0x1312d000 0x12646790 0xe4e1c00 0x9e73f70>;
+			qcom,allowed-clock-rates = <400000000 0x1312d000 0x12646790 0xe4e1c00 0x9e73f70>;
 
 			qcom,clock-freq-tbl {
 
@@ -9064,7 +9065,7 @@
 			reg-names = "msm-cam";
 			status = "ok";
 			bus-vectors = "suspend", "svs", "nominal", "turbo";
-			qcom,bus-votes = <0x0 0x9896800 0x1312d000 0x1312d000>;
+			qcom,bus-votes = <0 160000000 320000000 360000000>;
 		};
 
 		qcom,csiphy@1b34000 {
@@ -9177,7 +9178,7 @@
 			ds-regs = <0x988 0x98c 0x990 0x994 0x998 0x99c 0x9a0 0x9a4 0x9a8 0x9ac 0x9b0 0x9b4 0x9b8 0x9bc 0x9c0 0x9c4 0x9c8>;
 			ds-settings = <0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0x110>;
 			max-clk-nominal = <0x17d78400>;
-			max-clk-turbo = <0x19bfcc00>;
+			max-clk-turbo = <504000000>;
 		};
 
 		qcom,vfe1@1b14000 {
@@ -9201,7 +9202,7 @@
 			ds-regs = <0x988 0x98c 0x990 0x994 0x998 0x99c 0x9a0 0x9a4 0x9a8 0x9ac 0x9b0 0x9b4 0x9b8 0x9bc 0x9c0 0x9c4 0x9c8>;
 			ds-settings = <0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0xcccc1111 0x110>;
 			max-clk-nominal = <0x17d78400>;
-			max-clk-turbo = <0x19bfcc00>;
+			max-clk-turbo = <504000000>;
 		};
 
 		qcom,vfe {
@@ -9281,7 +9282,7 @@
 			clocks = <0x2b 0x4e814a78 0x2b 0x8382f56d 0x2b 0x4ac95e14 0x2b 0xbbf73861 0x2b 0x7118a0de 0x2b 0xfbbee8cf 0x2b 0x9894b414>;
 			clock-names = "camss_top_ahb_clk", "cpp_core_clk", "camss_vfe_cpp_ahb_clk", "camss_vfe_cpp_axi_clk", "camss_vfe_cpp_clk", "micro_iface_clk", "camss_ahb_clk";
 			qcom,clock-rates = <0x0 0xaba9500 0x0 0x0 0xaba9500 0x0 0x0>;
-			qcom,min-clock-rate = <0x7ed6b40>;
+			qcom,min-clock-rate = <160000000>;
 			qcom,bus-master = <0x1>;
 			qcom,msm-bus,name = "msm_camera_cpp";
 			qcom,msm-bus,num-cases = <0x2>;
@@ -10179,11 +10180,11 @@
 			qcom,mdss-has-panic-ctrl;
 			qcom,mdss-per-pipe-panic-luts = <0xf 0xffff 0xfffc 0xff00>;
 			qcom,mdss-mdp-reg-offset = <0x1000>;
-			qcom,max-bandwidth-low-kbps = <0x2f4d60>;
-			qcom,max-bandwidth-high-kbps = <0x2f4d60>;
-			qcom,max-bandwidth-per-pipe-kbps = <0x231860>;
-			qcom,max-bw-settings = <0x1 0x2f4d60 0x2 0x19f0a0>;
-			qcom,max-clk-rate = <0x1312d000>;
+			qcom,max-bandwidth-low-kbps = <4100000>;
+			qcom,max-bandwidth-high-kbps = <4100000>;
+			qcom,max-bandwidth-per-pipe-kbps = <2600000>;
+			qcom,max-bw-settings = <0x1 4100000 0x2 380000000>;
+			qcom,max-clk-rate = <380000000>;
 			qcom,mdss-default-ot-rd-limit = <0x20>;
 			qcom,mdss-default-ot-wr-limit = <0x10>;
 			qcom,mdss-pipe-vig-off = <0x5000>;
