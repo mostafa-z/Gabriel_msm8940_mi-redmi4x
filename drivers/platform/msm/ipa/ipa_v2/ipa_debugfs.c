@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -80,16 +80,6 @@ const char *ipa_event_name[] = {
 	__stringify(ECM_DISCONNECT),
 	__stringify(IPA_TETHERING_STATS_UPDATE_STATS),
 	__stringify(IPA_TETHERING_STATS_UPDATE_NETWORK_STATS),
-	__stringify(IPA_PER_CLIENT_STATS_CONNECT_EVENT),
-	__stringify(IPA_PER_CLIENT_STATS_DISCONNECT_EVENT),
-	__stringify(ADD_VLAN_IFACE),
-	__stringify(DEL_VLAN_IFACE),
-	__stringify(ADD_L2TP_VLAN_MAPPING),
-	__stringify(DEL_L2TP_VLAN_MAPPING),
-	__stringify(IPA_QUOTA_REACH),
-	__stringify(IPA_SSR_BEFORE_SHUTDOWN),
-	__stringify(IPA_SSR_AFTER_POWERUP),
-	__stringify(WLAN_FWR_SSR_BEFORE_SHUTDOWN),
 };
 
 const char *ipa_hdr_l2_type_name[] = {
@@ -432,8 +422,6 @@ static ssize_t ipa_read_hdr(struct file *file, char __user *ubuf, size_t count,
 
 	list_for_each_entry(entry, &ipa_ctx->hdr_tbl.head_hdr_entry_list,
 			link) {
-		if (entry->cookie != IPA_HDR_COOKIE)
-			continue;
 		nbytes = scnprintf(
 			dbg_buff,
 			IPA_MAX_MSG_LEN,
@@ -599,26 +587,12 @@ static int ipa_attrib_dump_eq(struct ipa_ipfltri_rule_eq *attrib)
 	if (attrib->protocol_eq_present)
 		pr_err("protocol:%d ", attrib->protocol_eq);
 
-	if (attrib->num_ihl_offset_range_16 >
-			IPA_IPFLTR_NUM_IHL_RANGE_16_EQNS) {
-		IPAERR_RL("num_ihl_offset_range_16  Max %d passed value %d\n",
-			IPA_IPFLTR_NUM_IHL_RANGE_16_EQNS,
-			attrib->num_ihl_offset_range_16);
-		return -EPERM;
-	}
-
 	for (i = 0; i < attrib->num_ihl_offset_range_16; i++) {
 		pr_err(
 			   "(ihl_ofst_range16: ofst:%u lo:%u hi:%u) ",
 			   attrib->ihl_offset_range_16[i].offset,
 			   attrib->ihl_offset_range_16[i].range_low,
 			   attrib->ihl_offset_range_16[i].range_high);
-	}
-
-	if (attrib->num_offset_meq_32 > IPA_IPFLTR_NUM_MEQ_32_EQNS) {
-		IPAERR_RL("num_offset_meq_32  Max %d passed value %d\n",
-		IPA_IPFLTR_NUM_MEQ_32_EQNS, attrib->num_offset_meq_32);
-		return -EPERM;
 	}
 
 	for (i = 0; i < attrib->num_offset_meq_32; i++) {
@@ -642,24 +616,12 @@ static int ipa_attrib_dump_eq(struct ipa_ipfltri_rule_eq *attrib)
 				attrib->ihl_offset_eq_16.value);
 	}
 
-	if (attrib->num_ihl_offset_meq_32 > IPA_IPFLTR_NUM_IHL_MEQ_32_EQNS) {
-		IPAERR_RL("num_ihl_offset_meq_32  Max %d passed value %d\n",
-		IPA_IPFLTR_NUM_IHL_MEQ_32_EQNS, attrib->num_ihl_offset_meq_32);
-		return -EPERM;
-	}
-
 	for (i = 0; i < attrib->num_ihl_offset_meq_32; i++) {
 		pr_err(
 				"(ihl_ofst_meq32: ofts:%d mask:0x%x val:0x%x) ",
 				attrib->ihl_offset_meq_32[i].offset,
 				attrib->ihl_offset_meq_32[i].mask,
 				attrib->ihl_offset_meq_32[i].value);
-	}
-
-	if (attrib->num_offset_meq_128 > IPA_IPFLTR_NUM_MEQ_128_EQNS) {
-		IPAERR_RL("num_offset_meq_128  Max %d passed value %d\n",
-		IPA_IPFLTR_NUM_MEQ_128_EQNS, attrib->num_offset_meq_128);
-		return -EPERM;
 	}
 
 	for (i = 0; i < attrib->num_offset_meq_128; i++) {
@@ -831,14 +793,11 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 	u32 rt_tbl_idx;
 	u32 bitmap;
 	bool eq;
-	int res = 0;
 
 	tbl = &ipa_ctx->glob_flt_tbl[ip];
 	mutex_lock(&ipa_ctx->lock);
 	i = 0;
 	list_for_each_entry(entry, &tbl->head_flt_rule_list, link) {
-		if (entry->cookie != IPA_FLT_COOKIE)
-			continue;
 		if (entry->rule.eq_attrib_type) {
 			rt_tbl_idx = entry->rule.rt_tbl_idx;
 			bitmap = entry->rule.eq_attrib.rule_eq_bitmap;
@@ -856,14 +815,10 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 			i, entry->rule.action, rt_tbl_idx);
 		pr_err("attrib_mask:%08x retain_hdr:%d eq:%d ",
 			bitmap, entry->rule.retain_hdr, eq);
-		if (eq) {
-			res = ipa_attrib_dump_eq(
+		if (eq)
+			ipa_attrib_dump_eq(
 				&entry->rule.eq_attrib);
-			if (res) {
-				IPAERR_RL("failed read attrib eq\n");
-				goto bail;
-			}
-		} else
+		else
 			ipa_attrib_dump(
 				&entry->rule.attrib, ip);
 		i++;
@@ -873,8 +828,6 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 		tbl = &ipa_ctx->flt_tbl[j][ip];
 		i = 0;
 		list_for_each_entry(entry, &tbl->head_flt_rule_list, link) {
-			if (entry->cookie != IPA_FLT_COOKIE)
-				continue;
 			if (entry->rule.eq_attrib_type) {
 				rt_tbl_idx = entry->rule.rt_tbl_idx;
 				bitmap = entry->rule.eq_attrib.rule_eq_bitmap;
@@ -893,23 +846,18 @@ static ssize_t ipa_read_flt(struct file *file, char __user *ubuf, size_t count,
 			pr_err("attrib_mask:%08x retain_hdr:%d ",
 				bitmap, entry->rule.retain_hdr);
 			pr_err("eq:%d ", eq);
-			if (eq) {
-				res = ipa_attrib_dump_eq(
-						&entry->rule.eq_attrib);
-				if (res) {
-					IPAERR_RL("failed read attrib eq\n");
-					goto bail;
-				}
-			} else
+			if (eq)
+				ipa_attrib_dump_eq(
+					&entry->rule.eq_attrib);
+			else
 				ipa_attrib_dump(
 					&entry->rule.attrib, ip);
 			i++;
 		}
 	}
-bail:
 	mutex_unlock(&ipa_ctx->lock);
 
-	return res;
+	return 0;
 }
 
 static ssize_t ipa_read_stats(struct file *file, char __user *ubuf,
@@ -1483,11 +1431,7 @@ static ssize_t ipa_read_nat4(struct file *file,
 	pr_err("Table Size:%d\n",
 				ipa_ctx->nat_mem.size_base_tables);
 
-	if (!ipa_ctx->nat_mem.size_expansion_tables)
-		pr_err("Expansion Table Size:%d\n",
-				ipa_ctx->nat_mem.size_expansion_tables);
-	else
-		pr_err("Expansion Table Size:%d\n",
+	pr_err("Expansion Table Size:%d\n",
 				ipa_ctx->nat_mem.size_expansion_tables-1);
 
 	if (!ipa_ctx->nat_mem.is_sys_mem)
@@ -1502,8 +1446,6 @@ static ssize_t ipa_read_nat4(struct file *file,
 
 			pr_err("\nBase Table:\n");
 		} else {
-			if (!ipa_ctx->nat_mem.size_expansion_tables)
-				continue;
 			tbl_size = ipa_ctx->nat_mem.size_expansion_tables-1;
 			base_tbl =
 			 (u32 *)ipa_ctx->nat_mem.ipv4_expansion_rules_addr;
@@ -1603,8 +1545,6 @@ static ssize_t ipa_read_nat4(struct file *file,
 
 			pr_err("\nIndex Table:\n");
 		} else {
-			if (!ipa_ctx->nat_mem.size_expansion_tables)
-				continue;
 			tbl_size = ipa_ctx->nat_mem.size_expansion_tables-1;
 			indx_tbl =
 			 (u32 *)ipa_ctx->nat_mem.index_table_expansion_addr;
