@@ -2133,13 +2133,13 @@ static int __init cpufreq_interactive_init(void)
 
 	/* NB: wake up so the thread does not look hung to the freezer */
 	wake_up_process_no_notif(speedchange_task);
+#endif
 
 	ret = cpufreq_register_governor(&cpufreq_gov_interactive);
 	if (ret) {
 		kthread_stop(speedchange_task);
 		put_task_struct(speedchange_task);
 	}
-#endif
 	return ret;
 }
 
