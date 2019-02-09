@@ -479,7 +479,7 @@ static void update_running_avg(bool trigger_update)
 		return;
 	}
 	rq_avg_timestamp_ms = now;
-	sched_get_nr_running_avg(&avg, &iowait_avg);
+	sched_get_nr_running_avg(&avg, &iowait_avg, &big_avg);
 
 	spin_unlock_irqrestore(&state_lock, flags);
 
@@ -609,6 +609,8 @@ static bool eval_need(struct cpu_data *f)
 		f->need_cpus = need_cpus;
 	}
 
+	trace_core_ctl_eval_need(f->cpu, last_need, need_cpus,
+				 ret && need_flag);
 	spin_unlock_irqrestore(&state_lock, flags);
 
 	return ret && need_flag;
@@ -637,6 +639,7 @@ static int core_ctl_set_busy(unsigned int cpu, unsigned int busy)
 	f->nrrun_changed = false;
 
 	apply_need(f);
+	trace_core_ctl_set_busy(cpu, busy, old_is_busy, c->is_busy);
 	return 0;
 }
 
